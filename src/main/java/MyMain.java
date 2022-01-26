@@ -1,3 +1,5 @@
+import sun.jvm.hotspot.utilities.IntArray;
+
 import java.util.ArrayList;
 
 public class MyMain {
@@ -19,8 +21,19 @@ public class MyMain {
 
     // Tail recursive method:
     public static boolean binarySearchTR(int[] arr, int num, int lowerBound, int upperBound) {
-        // YOUR CODE HERE
-        return false;
+        if (upperBound - lowerBound < 1 && arr[lowerBound] == num) {
+            return true;
+        } else if (upperBound - lowerBound < 1) {
+            return false;
+        }
+        int newnext = (upperBound-lowerBound)/2 + lowerBound;
+        if (arr[newnext] > num) {
+            return binarySearchTR(arr,num, lowerBound, newnext-1);
+        } else if (arr[newnext] < num){
+            return binarySearchTR(arr,num, newnext+1, upperBound);
+        } else {
+            return true;
+        }
     }
 
 
@@ -69,6 +82,33 @@ public class MyMain {
 
     public static int[] merge(int[] arr1, int[] arr2) {
         // YOUR CODE HERE
-        return null;
+        int[] arr3 = new int[arr1.length+ arr2.length];
+        int arr1index = 0;
+        int arr2index = 0;
+        int arr3index = 0;
+        int arr3value = Integer.MIN_VALUE;
+        while (arr1index <= arr1.length-1 || arr2index <= arr2.length-1) {
+            int difference1 = Integer.MAX_VALUE;
+            int difference2 = Integer.MAX_VALUE;
+            if (arr1index <= arr1.length-1) {
+                difference1 = arr1[arr1index] - arr3value;
+            }
+            if (arr2index <= arr2.length-1) {
+                difference2 = arr2[arr2index] - arr3value;
+            }
+            if (difference1 < difference2) {
+                arr3[arr3index] = arr1[arr1index];
+                arr3value = arr1[arr1index];
+                arr1index = arr1index + 1;
+                arr3index = arr3index + 1;
+
+            } else {
+                arr3[arr3index] = arr2[arr2index];
+                arr3value = arr2[arr2index];
+                arr2index = arr2index + 1;
+                arr3index = arr3index + 1;
+            }
+        }
+        return arr3;
     }
 }
